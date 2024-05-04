@@ -3,7 +3,6 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config();
 const PORT = process.env.PORT || 8080;
-const time = new Date(Date.now());
 
 app.listen(PORT, () => console.log(`server is listening on PORT ${PORT}`));
 
@@ -12,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use((req, res, next) => {
-    console.log('Time:', time);
+    console.log('Time:', Date.now());
     next();
 }, (req, res, next) => {
     console.log('Request URL:', req.originalUrl)
