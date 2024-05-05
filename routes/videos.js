@@ -14,11 +14,13 @@ const writeFile = (videosData) => {
     fs.writeFileSync('./data/videos.json', JSON.stringify(videosData, null, 2));
 }
 
+// get request for video list
 router.get(`/videos`, (req, res) => {
     const videosData = readFile();
     res.send(videosData);
 });
 
+// get request for video by id
 router.get(`/videos/:id`, (req, res) => {
     const id = req.params.id;
     const videosData = readFile();
@@ -56,7 +58,9 @@ router.post('/', (req, res) => {
     const videosData = readFile();
     videosData.push(uploadVideo);
     writeFile(videosData);
-    res.status(201).json(uploadVideo);
+    res
+        .status(201)
+        .json(uploadVideo);
 });
 
 // post request for adding comments
@@ -76,7 +80,9 @@ router.post('/:id/comments', (req, res) => {
 
     selectedVideo.comments.unshift(newComment)
     writeFile(videosData)
-    res.status(200).send(videosData);
+    res
+        .status(200)
+        .send(videosData);
 });
 
 //delete comment request
@@ -91,7 +97,9 @@ router.delete('/:videoId/comments/:commentId', (req, res) => {
 
     selectedVideo.comments.splice(commentIndex, 1);
     writeFile(videosData)
-    res.status(200).send(videosData);
+    res
+        .status(200)
+        .send(videosData);
 });
 
 module.exports = router;
