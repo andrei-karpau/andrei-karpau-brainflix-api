@@ -62,9 +62,9 @@ router.post('/', (req, res) => {
 // post request for adding comments
 router.post('/:id/comments', (req, res) => {
     const { name, comment } = req.body;
-    let id = req.params.id;
+    const id = req.params.id;
     const videosData = readFile();
-    let selectedVideo = videosData.find(video => video.id === id);
+    const selectedVideo = videosData.find(video => video.id === id);
 
     const newComment = {
         name: name,
@@ -75,6 +75,21 @@ router.post('/:id/comments', (req, res) => {
     };
 
     selectedVideo.comments.unshift(newComment)
+    writeFile(videosData)
+    res.status(200).send(videosData);
+});
+
+//delete comment request
+router.delete('/:videoId/comments/:commentId', (req, res) => {
+    const videoId = req.params.videoId;
+    const commentId = req.params.commentId;
+    const videosData = readFile();
+    
+    const selectedVideo = videosData.find(video => video.id === videoId);
+    const commentIndex = selectedVideo.comments.findIndex(comment => comment.id === commentId);
+    console.log(commentIndex);
+
+    selectedVideo.comments.splice(commentIndex, 1);
     writeFile(videosData)
     res.status(200).send(videosData);
 });
